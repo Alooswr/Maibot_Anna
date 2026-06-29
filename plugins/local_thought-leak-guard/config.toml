@@ -1,0 +1,7 @@
+[plugin]
+enabled = true
+config_version = "1.0.0"
+
+[guard]
+abort_when_empty = true
+log_detail = true

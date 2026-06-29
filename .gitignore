@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+data/
+logs/
+config_back/
+*.backup*
+*.log
+*.jsonl
+*.db
+.DS_Store
+Thumbs.db

@@ -1,0 +1,67 @@
+﻿diff --git plugin.py.backup.20260625.default-girl-style plugin.py
+index 290ec2b..0873dbc 100644
+--- plugin.py.backup.20260625.default-girl-style
++++ plugin.py
+@@ -14,6 +14,13 @@ except ImportError:
+     from tts_service import MiMoTTSService
+ 
+ 
++_DEFAULT_STYLE_INSTRUCTION = (
++    "角色：一位清甜自然的少女，声音明亮干净、轻快柔和，带一点亲近感。"
++    "指导：语速中等偏快，情绪表达轻微自然，不要夸张卖萌，不要夹子音，不要用过度撒娇或表演腔；"
++    "根据上下文只做小幅情绪变化，整体保持像日常聊天一样自然。"
++)
++
++
+ class PluginSectionConfig(PluginConfigBase):
+     __ui_label__ = "插件"
+     enabled: bool = Field(default=True, description="是否启用")
+@@ -280,6 +287,9 @@ class AIVoicePlugin(MaiBotPlugin):
+             "使用语音进行回复。当用户要求语音、用户发送了语音消息、或你认为当前场景适合语音回复时调用。\n"
+             "必填参数：reply_text（回复文本）、msg_id（当前消息ID）。\n"
+             "可选参数：style_instruction（语音风格指令），不传则使用默认音色自然朗读，需要更生动的表达时可填写。\n\n"
++            "【默认声音基底】无论是否传入 style_instruction，插件都会固定使用：清甜自然的少女感声音，"
++            "明亮干净、轻快柔和、不过度卖萌、不夹子音、不表演腔。"
++            "style_instruction 只能补充本轮情绪和语气，不要覆盖这个默认声音基底。\n\n"
+             "【风格控制】可通过 style_instruction 参数精细控制语音演绎效果，"
+             "根据你当前扮演的角色人设和对话情境，主动提供完整的风格描述，让语音更拟人、更有感染力。\n\n"
+             "支持三种风格控制方式，可自由组合：\n\n"
+@@ -309,6 +319,7 @@ class AIVoicePlugin(MaiBotPlugin):
+                 param_type=ToolParamType.STRING,
+                 description=(
+                     "（可选）语音风格指令，用自然语言描述语气、情绪、语速等，让语音更拟人。\n"
++                    "只能补充本轮情绪和语气，不能覆盖默认的清甜自然少女感声音基底。\n"
+                     "不传则默认朗读。当你觉得需要更生动的表达时再填写。\n"
+                     "简单用法：'温柔安慰的语气，语速稍慢'\n"
+                     "导演模式：'角色：XX，性格XX。场景：XX。指导：语调XX，语速XX，气息XX。'\n"
+@@ -328,8 +339,8 @@ class AIVoicePlugin(MaiBotPlugin):
+ 
+         self.ctx.logger.info("Using stream_id=%s for voice reply, text_len=%d", stream_id, len(reply_text))
+ 
+-        # Always use the configured default voice
+-        asyncio.create_task(self._async_voice_reply(reply_text, style_instruction, stream_id, ""))
++        merged_style_instruction = _merge_style_instruction(style_instruction)
++        asyncio.create_task(self._async_voice_reply(reply_text, merged_style_instruction, stream_id, ""))
+         return {"success": True, "method": "voice", "error": ""}
+ 
+     async def _async_voice_reply(self, text: str, style_instruction: str, stream_id: str, voice_name: str) -> None:
+@@ -341,5 +352,17 @@ class AIVoicePlugin(MaiBotPlugin):
+             self.ctx.logger.error("Async voice reply failed: %s", e)
+ 
+ 
++def _merge_style_instruction(style_instruction: str = "") -> str:
++    """Keep a stable voice baseline while allowing small per-turn emotion hints."""
++    extra = " ".join(str(style_instruction or "").split())
++    if not extra:
++        return _DEFAULT_STYLE_INSTRUCTION
++    return (
++        f"{_DEFAULT_STYLE_INSTRUCTION}\n"
++        f"本轮情绪补充：{extra}\n"
++        "约束：本轮情绪补充只能调整语气强弱，不能改变默认少女感声音基底。"
++    )
++
++
+ def create_plugin() -> AIVoicePlugin:
+-    return AIVoicePlugin()
+\ No newline at end of file
++    return AIVoicePlugin()

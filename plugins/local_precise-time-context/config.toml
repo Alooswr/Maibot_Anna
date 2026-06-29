@@ -1,0 +1,12 @@
+[plugin]
+enabled = true
+config_version = "1.0.0"
+
+[time]
+timezone = "Asia/Shanghai"
+time_format = "%Y-%m-%d %H:%M"
+include_seconds = false
+include_timezone = true
+include_period = true
+include_relative_rule = true
+template = "【当前精确时间】现在是 {datetime}{seconds}（{timezone_text}{weekday}{period}）。{relative_rule}"

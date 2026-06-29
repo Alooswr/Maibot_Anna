@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "id": "local.group-dialogue-targeting",
+  "name": "群聊对象判断提示",
+  "version": "1.0.0",
+  "description": "在群聊模型请求前注入对象判断规则，提醒麦麦区分群友之间的对话、公共话题和真正对自己的发言。",
+  "author": {
+    "name": "local",
+    "url": "https://example.invalid/local/group-dialogue-targeting"
+  },
+  "license": "MIT",
+  "urls": {
+    "repository": "https://example.invalid/local/group-dialogue-targeting",
+    "homepage": "https://example.invalid/local/group-dialogue-targeting",
+    "documentation": "https://example.invalid/local/group-dialogue-targeting"
+  },
+  "host_application": {
+    "min_version": "1.0.0",
+    "max_version": "1.99.99"
+  },
+  "sdk": {
+    "min_version": "2.0.0",
+    "max_version": "2.99.99"
+  },
+  "dependencies": [],
+  "capabilities": [],
+  "i18n": {
+    "default_locale": "zh-CN",
+    "supported_locales": [
+      "zh-CN"
+    ]
+  }
+}

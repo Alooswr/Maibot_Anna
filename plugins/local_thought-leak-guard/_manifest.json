@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "id": "local.thought-leak-guard",
+  "name": "思考流泄露保护",
+  "version": "1.0.0",
+  "description": "在出站消息发送前移除 <think>、analysis、reasoning 等思考流片段，避免泄露到 QQ。",
+  "author": {
+    "name": "local",
+    "url": "https://example.invalid/local/thought-leak-guard"
+  },
+  "license": "MIT",
+  "urls": {
+    "repository": "https://example.invalid/local/thought-leak-guard",
+    "homepage": "https://example.invalid/local/thought-leak-guard",
+    "documentation": "https://example.invalid/local/thought-leak-guard"
+  },
+  "host_application": {
+    "min_version": "1.0.0",
+    "max_version": "1.99.99"
+  },
+  "sdk": {
+    "min_version": "2.0.0",
+    "max_version": "2.99.99"
+  },
+  "dependencies": [],
+  "capabilities": [],
+  "i18n": {
+    "default_locale": "zh-CN",
+    "supported_locales": [
+      "zh-CN"
+    ]
+  }
+}
