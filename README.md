@@ -9,6 +9,17 @@
 - `local_group-dialogue-targeting`: 在群聊提示里强调“先判断谁在对谁说话”，降低机器人把群友之间的对话误判成对自己说话的概率。
 - `local_identity-linker`: 用 QQ id 作为跨私聊/群聊的身份键，注入熟悉度提示，并带隐私边界约束，避免主动公开私聊内容。
 
+## 我们修复过的第三方插件
+
+见 `repairs/`：
+
+- `com_0-hz_maibot-corpus-callosum/plugin.py`: 修复 `<reject>` / `<veto>` 等内部控制标记泄露风险。
+- `MaiBot-Napcat-Adapter/runtime/router.py`: 修复私聊自身回显误判，避免机器人回复自己。
+
+见 `patches/`：
+
+- `emilia-mimotts-default-style.patch`: 给 MiMo TTS 插件固定默认少女感声音基底，降低每轮语音风格漂移。
+
 ## 安装
 
 把需要的目录复制到 MaiBot 插件目录，例如：
